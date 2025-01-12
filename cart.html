@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - LighthouseMat514</title>
+    <link rel="icon" href="logo.webp?v=1.1" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="shop.js"></script>
+    <script src="cart.js"></script>
+    <script src="nav.js"></script>
+</head>
+<body>
+    <nav>
+        <div class="nav-content">
+            <a class="navbar-brand" href="index.html">
+                <img src="logo.jpg?v=1.0" alt="Logo" class="nav-logo">
+            </a>
+            <a href="cart.html" class="cart-btn">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count">0</span>
+            </a>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="nav-right">
+                <div class="nav-links">
+                    <a href="index.html#home" class="nav-link">Home</a>
+                    <a href="index.html#about" class="nav-link">About</a>
+                    <a href="index.html#products" class="nav-link">Products</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="cart-page">
+        <h2>Your Shopping Cart</h2>
+        
+        <div class="cart-container">
+            <div class="cart-items">
+                <!-- Cart items will be dynamically inserted here -->
+            </div>
+
+            <div class="cart-summary">
+                <h3>Order Summary</h3>
+                <div class="summary-row">
+                    <span>Subtotal:</span>
+                    <span class="subtotal">₹0.00</span>
+                </div>
+                <div class="summary-row">
+                    <span>Shipping:</span>
+                    <span class="shipping">₹0.00</span>
+                </div>
+                <div class="summary-row total">
+                    <span>Total:</span>
+                    <span class="total-amount">₹0.00</span>
+                </div>
+                <button class="checkout-btn">
+                    Proceed to Checkout
+                </button>
+            </div>
+        </div>
+
+        <div class="checkout-form-container" style="display: none;">
+            <div class="checkout-header">
+                <h3>Checkout</h3>
+                <p class="checkout-subtitle">Please fill in your details to complete the order</p>
+            </div>
+            
+            <form id="checkoutForm">
+                <div class="form-sections">
+                    <div class="form-section">
+                        <h4>Personal Information</h4>
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="name" name="name" required 
+                                       pattern="[A-Za-z\s]{3,50}" 
+                                       placeholder="John Doe"
+                                       onkeypress="return /[A-Za-z\s]/.test(event.key)"
+                                       title="Name must be between 3 and 50 characters, letters and spaces only">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="mobile">Mobile Number</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-phone"></i>
+                                <input type="tel" id="mobile" name="mobile" required 
+                                       pattern="[0-9]{10}" 
+                                       placeholder="10-digit mobile number"
+                                       onkeypress="return /[0-9]/.test(event.key)"
+                                       maxlength="10"
+                                       title="Please enter a valid 10-digit mobile number">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-envelope"></i>
+                                <input type="email" id="email" name="email" required 
+                                       placeholder="email@example.com"
+                                       pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                                       onkeypress="return /[a-zA-Z0-9@._-]/.test(event.key)"
+                                       title="Please enter a valid email address">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <h4>Shipping Information</h4>
+                        <div class="form-group">
+                            <label for="address">Delivery Address</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-home"></i>
+                                <textarea id="address" name="address" required 
+                                          minlength="10" maxlength="200" 
+                                          placeholder="Enter your full address"
+                                          onkeypress="return /[A-Za-z0-9\s,.-]/.test(event.key)"
+                                          title="Address must be between 10 and 200 characters"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pincode">PIN Code</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <input type="text" id="pincode" name="pincode" required 
+                                       pattern="[0-9]{6}" 
+                                       placeholder="6-digit PIN code"
+                                       onkeypress="return /[0-9]/.test(event.key)"
+                                       maxlength="6"
+                                       title="Please enter a valid 6-digit PIN code">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <input type="hidden" name="order_details" id="orderDetails">
+                <input type="hidden" name="total_amount" id="totalAmount">
+                
+                <div class="checkout-actions">
+                    <button type="button" class="back-to-cart">
+                        <i class="fas fa-arrow-left"></i> Back to Cart
+                    </button>
+                    <button type="submit" class="place-order">
+                        Place Order <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="empty-cart-message" style="display: none;">
+            <i class="fas fa-shopping-cart"></i>
+            <h2>Your cart is empty</h2>
+            <p>Looks like you haven't added anything to your cart yet.</p>
+            <a href="index.html#products" class="continue-shopping">Continue Shopping</a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 LighthouseMat514. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // The initialization is now handled in cart.js
+        });
+    </script>
+</body>
+</html>

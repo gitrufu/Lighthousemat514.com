@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LighthouseMat514</title>
+    <link rel="icon" href="logo.jpg" type="image/x-icon">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="shop.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="nav.js"></script>
+
+</head>
+<body>
+    <nav>
+        <div class="nav-content">
+            <a class="navbar-brand" href="#">
+                <img src="logo.jpg?v=1.0" alt="Logo" class="nav-logo">
+            </a>
+            <a href="cart.html" class="cart-btn">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count">0</span>
+            </a>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="nav-right">
+                <div class="nav-links">
+                    <a href="#home" class="nav-link">Home</a>
+                    <a href="#about" class="nav-link">About</a>
+                    <a href="#products" class="nav-link">Products</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-wrapper">
+        <section id="home" class="carousel">
+            <!-- Hero Overlay with Call to Action -->
+            <div class="carousel-overlay">
+                <div class="hero-content">
+                    <h1 class="hero-title">LIGHTHOUSE</h1>
+                    <p class="hero-subtitle">You Are The Light Mat514</p>
+                    <div class="hero-cta">
+                        <a href="#products" class="cta-button primary scroll-link">Shop Now</a>
+                        <a href="#about" class="cta-button secondary scroll-link">Our Story</a>
+                    </div>
+                    <!-- Featured Categories -->
+                    <div class="featured-categories">
+                        <a href="#products" class="category-item scroll-link" data-category="hoodies">
+                            <i class="fas fa-tshirt"></i>
+                            <span>Hoodies</span>
+                        </a>
+                        <a href="#products" class="category-item scroll-link" data-category="tees">
+                            <i class="fas fa-tshirt"></i>
+                            <span>Tees</span>
+                        </a>
+                        <a href="#products" class="category-item scroll-link" data-category="caps">
+                            <i class="fas fa-hat-cowboy"></i>
+                            <span>Headwear</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Social Media Icons -->
+            <div class="social-icons">
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+
+            <!-- Navigation arrows with labels -->
+            <button class="carousel-nav prev" aria-label="Previous slide">
+                <i class="fas fa-chevron-left"></i>
+                <span class="nav-label">Previous</span>
+            </button>
+            <button class="carousel-nav next" aria-label="Next slide">
+                <span class="nav-label">Next</span>
+                <i class="fas fa-chevron-right"></i>
+            </button>
+
+            <!-- Carousel Slides -->
+            <div class="carousel-slide active">
+                <img src="light1.jpg" alt="Fashion Collection 1">
+                <div class="slide-caption">Winter Collection 2024</div>
+            </div>
+            <div class="carousel-slide">
+                <img src="light2.jpg" alt="Fashion Collection 2">
+                <div class="slide-caption">Summer Collection</div>
+            </div>
+            <div class="carousel-slide">
+                <img src="light3.jpg" alt="Fashion Collection 3">
+                <div class="slide-caption">Limited Edition Series</div>
+            </div>
+            <div class="carousel-slide">
+                <img src="light5.JPG" alt="Fashion Collection 4">
+                <div class="slide-caption">Limited Edition Series</div>
+            </div>
+            <div class="carousel-slide">
+                <img src="light6.jpg" alt="Fashion Collection 5">
+                <div class="slide-caption">Limited Edition Series</div>
+            </div>
+
+            <!-- Enhanced Indicators -->
+            <div class="carousel-indicators">
+                <button class="indicator active" aria-label="Slide 1">
+                    <div class="indicator-preview">
+                        <img src="light1.jpg" alt="Preview 1">
+                    </div>
+                </button>
+                <button class="indicator" aria-label="Slide 2">
+                    <div class="indicator-preview">
+                        <img src="light2.jpg" alt="Preview 2">
+                    </div>
+                </button>
+                <button class="indicator" aria-label="Slide 3">
+                    <div class="indicator-preview">
+                        <img src="light3.jpg" alt="Preview 3">
+                    </div>
+                </button>
+            </div>
+        </section>
+
+        <section id="about" class="about-section">
+            <div class="section-content">
+                <h2 class="section-title">About LighthouseMat514</h2>
+                <div class="about-container">
+                    <div class="about-content">
+                        <p class="about-description">
+                            Welcome to LighthouseMat514, where style meets comfort. We're passionate about creating high-quality apparel that not only looks great but feels amazing to wear. Our journey began with a simple idea: to provide exceptional clothing that makes you feel confident and comfortable.
+                        </p>
+                        <div class="about-highlights">
+                            <div class="highlight-item">
+                                <i class="fas fa-tshirt highlight-icon"></i>
+                                <span class="highlight-text">Premium Quality Materials</span>
+                            </div>
+                            <div class="highlight-item">
+                                <i class="fas fa-shipping-fast highlight-icon"></i>
+                                <span class="highlight-text">Fast & Reliable Shipping</span>
+                            </div>
+                            <div class="highlight-item">
+                                <i class="fas fa-medal highlight-icon"></i>
+                                <span class="highlight-text">Satisfaction Guaranteed</span>
+                            </div>
+                            <div class="highlight-item">
+                                <i class="fas fa-heart highlight-icon"></i>
+                                <span class="highlight-text">Made with Love</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about-image-container">
+                        <img src="logo.jpg" alt="About LighthouseMat514" class="about-image">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="products" class="products-section">
+            <div class="section-content">
+                <h2 class="section-title">Our Products</h2>
+                <div class="product-grid">
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="hoody.jpeg" alt="Product 1">
+                        </div>
+                        <h3>Hoody</h3>
+                        <p>₹1000.00</p>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="sweater.jpeg" alt="Product 2">
+                        </div>
+                        <h3>Sweaters</h3>
+                        <p>₹800.00</p>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="tees2.JPG" alt="Product 3">
+                        </div>
+                        <h3>Classic Tees</h3>
+                        <p>₹400.00</p>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="bucket.jpeg " alt="Product 4">
+                        </div>
+                        <h3>Bucket Hats </h3>
+                        <p>₹400.00</p>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="cap.jpg" alt="Product 4">
+                        </div>
+                        <h3>Caps </h3>
+                        <p>₹200.00</p>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 LighthouseMat514. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide icons
+        document.addEventListener('DOMContentLoaded', function() {
+            lucide.createIcons();
+        });
+        function initCarousel() {
+            const slides = document.querySelectorAll('.carousel-slide');
+            const indicators = document.querySelectorAll('.indicator');
+            const prevBtn = document.querySelector('.carousel-nav.prev');
+            const nextBtn = document.querySelector('.carousel-nav.next');
+            let currentSlide = 0;
+            let slideInterval;
+
+            function showSlide(index) {
+                slides.forEach(slide => slide.classList.remove('active'));
+                indicators.forEach(indicator => indicator.classList.remove('active'));
+                
+                slides[index].classList.add('active');
+                indicators[index].classList.add('active');
+            }
+
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            }
+
+            function prevSlide() {
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                showSlide(currentSlide);
+            }
+
+            function startSlideshow() {
+                if (slideInterval) {
+                    clearInterval(slideInterval);
+                }
+                slideInterval = setInterval(nextSlide, 5000);
+            }
+
+            function stopSlideshow() {
+                if (slideInterval) {
+                    clearInterval(slideInterval);
+                }
+            }
+
+            // Add event listeners
+            prevBtn.addEventListener('click', () => {
+                prevSlide();
+                stopSlideshow();
+                startSlideshow();
+            });
+
+            nextBtn.addEventListener('click', () => {
+                nextSlide();
+                stopSlideshow();
+                startSlideshow();
+            });
+
+            indicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', () => {
+                    currentSlide = index;
+                    showSlide(currentSlide);
+                    stopSlideshow();
+                    startSlideshow();
+                });
+            });
+
+            // Initialize carousel
+            showSlide(currentSlide);
+            startSlideshow();
+        }
+
+        // Initialize carousel when page loads
+        document.addEventListener('DOMContentLoaded', initCarousel);
+    </script>
+</body>
+</html>
