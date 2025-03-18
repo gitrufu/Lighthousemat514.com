@@ -33,7 +33,7 @@ function validateInput($data) {
     }
     
     // Mobile validation
-    if (!preg_match("/^[0-9]{10}$/", $data['mobile'])) {
+    if (!preg_match("/^[0-9]{10}$/", $data['phone'])) {
         $errors[] = "Invalid mobile number";
     }
     
@@ -52,6 +52,11 @@ function validateInput($data) {
         $errors[] = "Invalid PIN code";
     }
     
+    // Payment Method validation
+    if (!in_array($data['payment_method'], ['cod'])) {
+        $errors[] = "Invalid payment method";
+    }
+    
     return $errors;
 }
 
@@ -62,32 +67,34 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 try {
-    // Verify that required POST data exists
-    if (!isset($_POST['order_details']) || !isset($_POST['total_amount'])) {
+    // Verify required POST data
+    if (!isset($_POST['orderDetails']) || !isset($_POST['totalAmount']) || !isset($_POST['payment_method'])) {
         throw new Exception("Missing required order data");
     }
 
     // Get and decode order details
-    $orderDetails = json_decode($_POST['order_details'], true);
+    $orderDetails = json_decode($_POST['orderDetails'], true);
     if (json_last_error() !== JSON_ERROR_NONE) {
         throw new Exception("Invalid order details format");
     }
 
-    $totalAmount = floatval($_POST['total_amount']);
-    
+    $totalAmount = floatval($_POST['totalAmount']);
+    $paymentMethod = $_POST['payment_method']; // Cash on Delivery (cod)
+
     // Sanitize input
     $name = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
-    $mobile = filter_var($_POST['mobile'], FILTER_SANITIZE_STRING);
+    $phone = filter_var($_POST['phone'], FILTER_SANITIZE_STRING);
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
     $address = filter_var($_POST['address'], FILTER_SANITIZE_STRING);
     $pincode = filter_var($_POST['pincode'], FILTER_SANITIZE_STRING);
 
     $data = [
         'name' => $name,
-        'mobile' => $mobile,
+        'phone' => $phone,
         'email' => $email,
         'address' => $address,
-        'pincode' => $pincode
+        'pincode' => $pincode,
+        'payment_method' => $paymentMethod
     ];
 
     // Validate input
@@ -102,16 +109,17 @@ try {
     $db->beginTransaction();
 
     // Insert order
-    $stmt = $db->prepare("INSERT INTO orders (name, mobile, email, address, pincode, total_amount, order_date) 
-                         VALUES (:name, :mobile, :email, :address, :pincode, :total_amount, NOW())");
+    $stmt = $db->prepare("INSERT INTO orders (name, phone, email, address, pincode, total_amount, payment_method, order_date) 
+                         VALUES (:name, :phone, :email, :address, :pincode, :total_amount, :payment_method, NOW())");
     
     $stmt->execute([
         ':name' => $name,
-        ':mobile' => $mobile,
+        ':phone' => $phone,
         ':email' => $email,
         ':address' => $address,
         ':pincode' => $pincode,
-        ':total_amount' => $totalAmount
+        ':total_amount' => $totalAmount,
+        ':payment_method' => $paymentMethod
     ]);
     
     $orderId = $db->lastInsertId();
@@ -145,4 +153,5 @@ try {
         'success' => false,
         'error' => 'Order processing failed: ' . $e->getMessage()
     ]);
-} 
+}
+?>

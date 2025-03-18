@@ -35,125 +35,225 @@
     </nav>
 
     <main class="cart-page">
-        <h2>Your Shopping Cart</h2>
+        <div class="cart-header">
+            <h1>Your Shopping Cart</h1>
+            <div class="cart-steps">
+                <div class="step active" data-step="cart">
+                    <span class="step-number">1</span>
+                    <span class="step-text">Cart</span>
+                </div>
+                <div class="step-line"></div>
+                <div class="step" data-step="checkout">
+                    <span class="step-number">2</span>
+                    <span class="step-text">Checkout</span>
+                </div>
+                <div class="step-line"></div>
+                <div class="step" data-step="confirmation">
+                    <span class="step-number">3</span>
+                    <span class="step-text">Confirmation</span>
+                </div>
+            </div>
+        </div>
         
         <div class="cart-container">
-            <div class="cart-items">
-                <!-- Cart items will be dynamically inserted here -->
+            <div class="cart-main">
+                <div class="cart-section">
+                    <div class="section-header">
+                        <h2>Cart Items</h2>
+                        <span class="items-count">0 items</span>
+                    </div>
+                    <div class="cart-items">
+                        <!-- Cart items will be dynamically inserted here -->
+                    </div>
+                </div>
+
+                <div class="cart-section shipping-section">
+                    <div class="section-header">
+                        <h2>Shipping Method</h2>
+                    </div>
+                    <div class="shipping-options">
+                        <label class="shipping-option">
+                            <input type="radio" name="shipping" value="standard" checked>
+                            <div class="option-content">
+                                <div class="option-info">
+                                    <span class="option-name">Standard Delivery</span>
+                                    <span class="option-time">3-5 business days</span>
+                                </div>
+                                <span class="option-price">₹50.00</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
             </div>
 
-            <div class="cart-summary">
-                <h3>Order Summary</h3>
-                <div class="summary-row">
-                    <span>Subtotal:</span>
-                    <span class="subtotal">₹0.00</span>
+            <div class="cart-sidebar">
+                <div class="order-summary">
+                    <h2>Order Summary</h2>
+                    <div class="summary-items">
+                        <div class="summary-row">
+                            <span>Subtotal</span>
+                            <span class="subtotal">₹0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Shipping</span>
+                            <span class="shipping">₹50.00</span>
+                        </div>
+                        <div class="summary-row discount" style="display: none;">
+                            <span>Discount</span>
+                            <span class="discount-amount">-₹0.00</span>
+                        </div>
+                    </div>
+                    <div class="summary-total">
+                        <span>Total</span>
+                        <div class="total-amount">
+                            <span class="currency">₹</span>
+                            <span class="amount">0.00</span>
+                        </div>
+                    </div>
+                    <button class="checkout-btn">
+                        <span>Proceed to Checkout</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <div class="secure-checkout">
+                        <i class="fas fa-lock"></i>
+                        <span>Secure Checkout</span>
+                    </div>
+                    <div class="accepted-payments">
+                        <span>We Accept</span>
+                        <div class="payment-icons">
+                            <i class="fab fa-cc-visa"></i>
+                            <i class="fab fa-cc-mastercard"></i>
+                            <i class="fab fa-cc-amex"></i>
+                            <i class="fab fa-google-pay"></i>
+                            <i class="fab fa-apple-pay"></i>
+                        </div>
+                    </div>
                 </div>
-                <div class="summary-row">
-                    <span>Shipping:</span>
-                    <span class="shipping">₹0.00</span>
-                </div>
-                <div class="summary-row total">
-                    <span>Total:</span>
-                    <span class="total-amount">₹0.00</span>
-                </div>
-                <button class="checkout-btn">
-                    Proceed to Checkout
-                </button>
             </div>
         </div>
 
         <div class="checkout-form-container" style="display: none;">
-            <div class="checkout-header">
-                <h3>Checkout</h3>
-                <p class="checkout-subtitle">Please fill in your details to complete the order</p>
-            </div>
-            
-            <form id="checkoutForm">
-                <div class="form-sections">
-                    <div class="form-section">
-                        <h4>Personal Information</h4>
-                        <div class="form-group">
-                            <label for="name">Full Name</label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-user"></i>
-                                <input type="text" id="name" name="name" required 
-                                       pattern="[A-Za-z\s]{3,50}" 
-                                       placeholder="John Doe"
-                                       onkeypress="return /[A-Za-z\s]/.test(event.key)"
-                                       title="Name must be between 3 and 50 characters, letters and spaces only">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="mobile">Mobile Number</label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-phone"></i>
-                                <input type="tel" id="mobile" name="mobile" required 
-                                       pattern="[0-9]{10}" 
-                                       placeholder="10-digit mobile number"
-                                       onkeypress="return /[0-9]/.test(event.key)"
-                                       maxlength="10"
-                                       title="Please enter a valid 10-digit mobile number">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email Address</label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-envelope"></i>
-                                <input type="email" id="email" name="email" required 
-                                       placeholder="email@example.com"
-                                       pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                                       onkeypress="return /[a-zA-Z0-9@._-]/.test(event.key)"
-                                       title="Please enter a valid email address">
-                            </div>
-                        </div>
+            <h2>Checkout</h2>
+            <form id="checkoutForm" class="checkout-form">
+                <div class="form-group">
+                    <label for="name"><i class="fas fa-user"></i> Full Name</label>
+                    <div class="input-wrapper">
+                        
+                        <input type="text" id="name" name="name" required 
+                               pattern="[A-Za-z\s]{3,50}"
+                               onkeypress="return /[A-Za-z\s]/.test(event.key)"
+                               title="Name must be between 3 and 50 characters, letters and spaces only">
                     </div>
-                    <div class="form-section">
-                        <h4>Shipping Information</h4>
-                        <div class="form-group">
-                            <label for="address">Delivery Address</label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-home"></i>
-                                <textarea id="address" name="address" required 
-                                          minlength="10" maxlength="200" 
-                                          placeholder="Enter your full address"
-                                          onkeypress="return /[A-Za-z0-9\s,.-]/.test(event.key)"
-                                          title="Address must be between 10 and 200 characters"></textarea>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="pincode">PIN Code</label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <input type="text" id="pincode" name="pincode" required 
-                                       pattern="[0-9]{6}" 
-                                       placeholder="6-digit PIN code"
-                                       onkeypress="return /[0-9]/.test(event.key)"
-                                       maxlength="6"
-                                       title="Please enter a valid 6-digit PIN code">
-                            </div>
-                        </div>
+                </div>
+                <div class="form-group">
+                    <label for="mobile"><i class="fas fa-phone"></i> Mobile Number</label>
+                    <div class="input-wrapper">
+                        
+                        <input type="tel" id="phone" name="phone" required 
+                               pattern="[0-9]{10}" 
+                               onkeypress="return /[0-9]/.test(event.key)"
+                               maxlength="10"
+                               title="Please enter a valid 10-digit mobile number">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="email"><i class="fas fa-envelope"></i> Email Address</label>
+                    <div class="input-wrapper">
+                        
+                        <input type="email" id="email" name="email" required
+                               pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                               onkeypress="return /[a-zA-Z0-9@._-]/.test(event.key)"
+                               title="Please enter a valid email address">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="address"><i class="fas fa-home"></i> Delivery Address</label>
+                    <div class="input-wrapper">
+                        
+                        <textarea id="address" name="address" required 
+                                  minlength="10" maxlength="200"
+                                  onkeypress="return /[A-Za-z0-9\s,.-]/.test(event.key)"
+                                  title="Address must be between 10 and 200 characters"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="pincode">
+                        <i class="fas fa-map-marker-alt"></i> PIN Code</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="pincode" name="pincode" required 
+                               pattern="[0-9]{6}"
+                               onkeypress="return /[0-9]/.test(event.key)"
+                               maxlength="6"
+                               title="Please enter a valid 6-digit PIN code">
                     </div>
                 </div>
 
-                <input type="hidden" name="order_details" id="orderDetails">
-                <input type="hidden" name="total_amount" id="totalAmount">
-                
-                <div class="checkout-actions">
-                    <button type="button" class="back-to-cart">
-                        <i class="fas fa-arrow-left"></i> Back to Cart
-                    </button>
-                    <button type="submit" class="place-order">
-                        Place Order <i class="fas fa-arrow-right"></i>
-                    </button>
+                <div class="payment-method">
+                    <h3>Payment Method</h3>
+                    <div class="payment-option">
+                        <input type="radio" id="cod" name="payment_method" value="cod" checked>
+                        <label for="cod">Cash on Delivery</label>
+                    </div>
+                </div>
+                <input type="hidden" id="orderDetails" name="orderDetails">
+                <input type="hidden" id="totalAmount" name="totalAmount">
+                <div class="form-actions">
+                    <button type="button" class="back-to-cart">Back to Cart</button>
+                    <button type="submit" class="place-order">Place Order</button>
                 </div>
             </form>
         </div>
 
         <div class="empty-cart-message" style="display: none;">
-            <i class="fas fa-shopping-cart"></i>
-            <h2>Your cart is empty</h2>
-            <p>Looks like you haven't added anything to your cart yet.</p>
-            <a href="index.html#products" class="continue-shopping">Continue Shopping</a>
+            <div class="empty-cart-content">
+                <i class="fas fa-shopping-cart"></i>
+                <h2>Your cart is empty</h2>
+                <p>Looks like you haven't added anything to your cart yet.</p>
+                <a href="index.html#products" class="continue-shopping">
+                    <i class="fas fa-arrow-left"></i>
+                    Continue Shopping
+                </a>
+            </div>
+        </div>
+
+        <div class="order-confirmation-popup" style="display: none;">
+            <div class="popup-overlay"></div>
+            <div class="popup-content">
+                <div class="popup-header">
+                    <h2>Order Confirmation</h2>
+                    <button class="close-popup">&times;</button>
+                </div>
+                <div class="popup-body">
+                    <div class="confirmation-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="order-details">
+                        <h3>Thank you for your order!</h3>
+                        <div class="order-info">
+                            <p class="order-id">Order ID: <span></span></p>
+                            <p class="order-total">Total Amount: <span></span></p>
+                        </div>
+                        <div class="delivery-info">
+                            <h4>Delivery Details</h4>
+                            <p class="customer-name"></p>
+                            <p class="customer-address"></p>
+                            <p class="customer-pincode"></p>
+                        </div>
+                        <div class="contact-info">
+                            <h4>Contact Information</h4>
+                            <p class="customer-phone"></p>
+                            <p class="customer-email"></p>
+                        </div>
+                        <div class="payment-info">
+                            <h4>Payment Method</h4>
+                            <p>Cash on Delivery</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="popup-footer">
+                    <button class="continue-shopping">Continue Shopping</button>
+                </div>
+            </div>
         </div>
     </main>
 
@@ -162,11 +262,5 @@
             <p>&copy; 2024 LighthouseMat514. All rights reserved.</p>
         </div>
     </footer>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // The initialization is now handled in cart.js
-        });
-    </script>
 </body>
 </html>

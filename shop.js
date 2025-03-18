@@ -29,71 +29,87 @@ function addToCart(product) {
     updateCartCount();
     
     // Show notification
-    showAddToCartNotification();
+    showCartPopup();
 }
 
-function showAddToCartNotification() {
-    // Remove any existing notifications
-    const existingNotification = document.querySelector('.cart-notification');
-    if (existingNotification) {
-        existingNotification.remove();
+function showCartPopup() {
+    // Remove existing popup if any
+    const existingPopup = document.querySelector('.cart-popup');
+    if (existingPopup) {
+        existingPopup.remove();
     }
 
-    // Create notification element
-    const notification = document.createElement('div');
-    notification.className = 'cart-notification';
-    
-    // Get the product count and latest added item
-    const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
-    const latestItem = cart[cart.length - 1];
-    const itemText = cartCount === 1 ? 'item' : 'items';
-    
-    notification.innerHTML = `
-        <div class="notification-icon">
-            <i class="fas fa-check-circle success-icon"></i>
+    // Create popup container
+    const popup = document.createElement('div');
+    popup.className = 'cart-popup';
+
+    // Calculate cart total and items
+    const cartTotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+    const itemCount = cart.reduce((total, item) => total + item.quantity, 0);
+
+    // Create popup content
+    let popupContent = `
+        <div class="popup-header">
+            <h3>Cart Overview</h3>
+            <button class="popup-close">&times;</button>
         </div>
-        <div class="notification-content">
-            <div class="notification-header">
-                <span class="notification-title">Added to Cart!</span>
-                <button class="notification-close">
-                    <i class="fas fa-times"></i>
-                </button>
+        <div class="popup-content">
+            <div class="cart-summary">
+                <span>${itemCount} item${itemCount !== 1 ? 's' : ''} in cart</span>
+                <span class="cart-total">₹${cartTotal.toFixed(2)}</span>
             </div>
-            <p class="notification-message">${latestItem.name} has been added to your cart</p>
-            <a href="cart.html" class="view-cart-link">
-                View Cart (${cartCount} ${itemText}) <i class="fas fa-arrow-right"></i>
-            </a>
+            <div class="recent-items">
+    `;
+
+    // Add last 2 items from cart
+    const recentItems = cart.slice(-2).reverse();
+    recentItems.forEach(item => {
+        popupContent += `
+            <div class="cart-item">
+                <img src="${item.image}" alt="${item.name}">
+                <div class="item-details">
+                    <span class="item-name">${item.name}</span>
+                    <span class="item-price">₹${item.price.toFixed(2)} × ${item.quantity}</span>
+                </div>
+            </div>
+        `;
+    });
+
+    popupContent += `
+            </div>
+            <a href="cart.html" class="view-cart-btn">View Cart</a>
         </div>
     `;
-    
-    document.body.appendChild(notification);
-    
-    // Add click handler for close button
-    notification.querySelector('.notification-close').addEventListener('click', (e) => {
-        e.stopPropagation();
-        notification.classList.add('fade-out');
-        setTimeout(() => notification.remove(), 300);
+
+    popup.innerHTML = popupContent;
+    document.body.appendChild(popup);
+
+    // Add event listeners
+    const closeBtn = popup.querySelector('.popup-close');
+    closeBtn.addEventListener('click', () => {
+        popup.classList.add('popup-fade-out');
+        setTimeout(() => popup.remove(), 300);
     });
 
-    // Auto-dismiss after 4 seconds
-    const dismissTimeout = setTimeout(() => {
-        if (document.body.contains(notification)) {
-            notification.classList.add('fade-out');
-            setTimeout(() => notification.remove(), 300);
+    // Auto-dismiss after 5 seconds
+    setTimeout(() => {
+        if (document.body.contains(popup)) {
+            popup.classList.add('popup-fade-out');
+            setTimeout(() => popup.remove(), 300);
         }
-    }, 4000);
+    }, 5000);
 
-    // Clear timeout if user interacts with notification
-    notification.addEventListener('mouseenter', () => {
-        clearTimeout(dismissTimeout);
+    // Prevent auto-dismiss on hover
+    popup.addEventListener('mouseenter', () => {
+        popup.classList.add('popup-hover');
     });
 
-    // Resume timeout when mouse leaves
-    notification.addEventListener('mouseleave', () => {
+    popup.addEventListener('mouseleave', () => {
+        popup.classList.remove('popup-hover');
         setTimeout(() => {
-            if (document.body.contains(notification)) {
-                notification.classList.add('fade-out');
-                setTimeout(() => notification.remove(), 300);
+            if (document.body.contains(popup) && !popup.classList.contains('popup-hover')) {
+                popup.classList.add('popup-fade-out');
+                setTimeout(() => popup.remove(), 300);
             }
         }, 2000);
     });

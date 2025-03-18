@@ -4,7 +4,73 @@ document.addEventListener('DOMContentLoaded', () => {
     const cartContainer = document.querySelector('.cart-container');
     const checkoutBtn = document.querySelector('.checkout-btn');
     const checkoutFormContainer = document.querySelector('.checkout-form-container');
+    const confirmationPopup = document.querySelector('.order-confirmation-popup');
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    
+    function updateSteps(currentStep) {
+        const steps = document.querySelectorAll('.cart-steps .step');
+        const stepLines = document.querySelectorAll('.step-line');
+        let foundCurrent = false;
+
+        steps.forEach((step, index) => {
+            if (step.dataset.step === currentStep) {
+                step.classList.add('active');
+                foundCurrent = true;
+            } else if (!foundCurrent) {
+                step.classList.add('completed');
+                if (stepLines[index]) {
+                    stepLines[index].classList.add('active');
+                }
+            } else {
+                step.classList.remove('active', 'completed');
+                if (stepLines[index - 1]) {
+                    stepLines[index - 1].classList.remove('active');
+                }
+            }
+        });
+    }
+
+    function showConfirmationPopup(orderData) {
+        // Update popup content
+        const popup = document.querySelector('.order-confirmation-popup');
+        popup.querySelector('.order-id span').textContent = orderData.orderId;
+        popup.querySelector('.order-total span').textContent = `₹${orderData.totalAmount}`;
+        popup.querySelector('.customer-name').textContent = orderData.customerInfo.name;
+        popup.querySelector('.customer-address').textContent = orderData.customerInfo.address;
+        popup.querySelector('.customer-pincode').textContent = `PIN: ${orderData.customerInfo.pincode}`;
+        popup.querySelector('.customer-phone').textContent = `Phone: ${orderData.customerInfo.phone}`;
+        popup.querySelector('.customer-email').textContent = `Email: ${orderData.customerInfo.email}`;
+
+        // Show popup
+        popup.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+
+        // Handle close button
+        const closeBtn = popup.querySelector('.close-popup');
+        closeBtn.onclick = () => {
+            popup.style.display = 'none';
+            document.body.style.overflow = '';
+            window.location.href = 'index.html';
+        };
+
+        // Handle continue shopping button
+        const continueBtn = popup.querySelector('.continue-shopping');
+        continueBtn.onclick = () => {
+            popup.style.display = 'none';
+            document.body.style.overflow = '';
+            window.location.href = 'index.html';
+        };
+
+        // Handle overlay click
+        const overlay = popup.querySelector('.popup-overlay');
+        overlay.onclick = (e) => {
+            if (e.target === overlay) {
+                popup.style.display = 'none';
+                document.body.style.overflow = '';
+                window.location.href = 'index.html';
+            }
+        };
+    }
     
     function updateCart() {
         if (cart.length === 0) {
@@ -12,6 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
             emptyCartMessage.style.display = 'flex';
             checkoutFormContainer.style.display = 'none';
             updateCartCount();
+            updateSteps('cart');
             return;
         }
 
@@ -19,6 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
         emptyCartMessage.style.display = 'none';
         checkoutFormContainer.style.display = 'none';
         updateCartCount();
+        updateSteps('cart');
         
         cartItems.innerHTML = cart.map((item, index) => `
             <div class="cart-item" data-index="${index}">
@@ -70,9 +138,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.querySelector('.subtotal').textContent = `₹${subtotal.toFixed(2)}`;
         document.querySelector('.shipping').textContent = `₹${shipping.toFixed(2)}`;
-        document.querySelector('.total-amount').textContent = `₹${total.toFixed(2)}`;
+        document.querySelector('.amount').textContent = total.toFixed(2);
         
-        // Enable/disable checkout button based on cart contents
         const checkoutBtn = document.querySelector('.checkout-btn');
         checkoutBtn.disabled = cart.length === 0;
     }
@@ -125,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function handleRemoveItem(e) {
-        const index = parseInt(e.target.dataset.index);
+        const index = parseInt(e.target.closest('.remove-item').dataset.index);
         cart.splice(index, 1);
         saveCartAndUpdate();
     }
@@ -135,34 +202,33 @@ document.addEventListener('DOMContentLoaded', () => {
         updateCart();
     }
 
-    // Add this function to calculate total
-    function calculateTotal() {
-        const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        const shipping = cart.length > 0 ? 50 : 0;
-        return (subtotal + shipping).toFixed(2);
-    }
-
-    // Update the checkout button event listener
+    // Add checkout button event listener
     if (checkoutBtn) {
         checkoutBtn.addEventListener('click', () => {
             if (cart.length > 0) {
                 cartContainer.style.display = 'none';
                 emptyCartMessage.style.display = 'none';
                 checkoutFormContainer.style.display = 'block';
+                updateSteps('checkout');
                 
-                // Set hidden form values
                 document.getElementById('orderDetails').value = JSON.stringify(cart);
-                document.getElementById('totalAmount').value = calculateTotal();
-                
-                // Log for debugging
-                console.log('Checkout button clicked');
-                console.log('Cart container display:', cartContainer.style.display);
-                console.log('Checkout form display:', checkoutFormContainer.style.display);
+                document.getElementById('totalAmount').value = document.querySelector('.amount').textContent;
             }
         });
     }
 
-    // Update form submission handler
+    // Add back to cart button handler
+    const backToCartBtn = document.querySelector('.back-to-cart');
+    if (backToCartBtn) {
+        backToCartBtn.addEventListener('click', () => {
+            cartContainer.style.display = 'grid';
+            emptyCartMessage.style.display = 'none';
+            checkoutFormContainer.style.display = 'none';
+            updateSteps('cart');
+        });
+    }
+
+    // Handle form submission
     const checkoutForm = document.getElementById('checkoutForm');
     if (checkoutForm) {
         checkoutForm.addEventListener('submit', async function(e) {
@@ -177,16 +243,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
                 
                 const result = await response.json();
-                console.log('Server response:', result); // Add this for debugging
                 
                 if (result.success) {
+                    updateSteps('confirmation');
+                    
+                    const orderData = {
+                        orderId: result.order_id,
+                        totalAmount: formData.get('totalAmount'),
+                        customerInfo: {
+                            name: formData.get('name'),
+                            phone: formData.get('phone'),
+                            email: formData.get('email'),
+                            address: formData.get('address'),
+                            pincode: formData.get('pincode')
+                        }
+                    };
+
+                    showConfirmationPopup(orderData);
+                    
                     // Clear cart
                     cart = [];
                     localStorage.removeItem('cart');
-                    
-                    // Show success message and redirect
-                    alert('Order placed successfully! Order ID: ' + result.order_id);
-                    window.location.href = 'index.html';
+                    updateCartCount();
                 } else {
                     const errorMessage = result.errors ? result.errors.join('\n') : 'Order processing failed';
                     alert('Error: ' + errorMessage);
@@ -197,70 +275,21 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Add input validation for the form
+        // Add input validation
         const inputs = checkoutForm.querySelectorAll('input, textarea');
-        
         inputs.forEach(input => {
-            // Prevent paste of invalid characters
-            input.addEventListener('paste', (e) => {
-                e.preventDefault();
-                const text = (e.clipboardData || window.clipboardData).getData('text');
-                
-                // Filter based on input type
-                let filteredText;
-                switch(input.id) {
-                    case 'name':
-                        filteredText = text.replace(/[^A-Za-z\s]/g, '');
-                        break;
-                    case 'mobile':
-                    case 'pincode':
-                        filteredText = text.replace(/[^0-9]/g, '');
-                        break;
-                    case 'email':
-                        filteredText = text.replace(/[^a-zA-Z0-9@._-]/g, '');
-                        break;
-                    case 'address':
-                        filteredText = text.replace(/[^A-Za-z0-9\s,.-]/g, '');
-                        break;
-                    default:
-                        filteredText = text;
-                }
-                
-                // Insert filtered text
-                if (filteredText) {
-                    const start = input.selectionStart;
-                    const end = input.selectionEnd;
-                    input.value = input.value.slice(0, start) + 
-                                filteredText + 
-                                input.value.slice(end);
-                    input.setSelectionRange(start + filteredText.length, 
-                                         start + filteredText.length);
+            input.addEventListener('invalid', (e) => {
+                e.target.classList.add('error');
+            });
+            
+            input.addEventListener('input', (e) => {
+                if (e.target.validity.valid) {
+                    e.target.classList.remove('error');
                 }
             });
-
-            // Real-time validation feedback
-            input.addEventListener('input', () => {
-                if (input.validity.valid) {
-                    input.classList.remove('invalid');
-                    input.classList.add('valid');
-                } else {
-                    input.classList.remove('valid');
-                    input.classList.add('invalid');
-                }
-            });
-        });
-    }
-
-    // Update back to cart button handler
-    const backToCartBtn = document.querySelector('.back-to-cart');
-    if (backToCartBtn) {
-        backToCartBtn.addEventListener('click', () => {
-            checkoutFormContainer.style.display = 'none';
-            cartContainer.style.display = 'grid';
-            console.log('Back to cart clicked');
         });
     }
 
     // Initialize cart
     updateCart();
-}); 
+});

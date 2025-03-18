@@ -1,0 +1,22 @@
+CREATE TABLE orders (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    phone VARCHAR(10) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    address TEXT NOT NULL,
+    pincode VARCHAR(6) NOT NULL,
+    total_amount DECIMAL(10,2) NOT NULL,
+    payment_method ENUM('cod') NOT NULL,
+    order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE order_items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT NOT NULL,
+    product_name VARCHAR(100) NOT NULL,
+    quantity INT NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+    size VARCHAR(20),
+    color VARCHAR(30),
+    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
+);
