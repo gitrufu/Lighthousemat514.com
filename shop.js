@@ -56,7 +56,7 @@ function showCartPopup() {
         <div class="popup-content">
             <div class="cart-summary">
                 <span>${itemCount} item${itemCount !== 1 ? 's' : ''} in cart</span>
-                <span class="cart-total">₹${cartTotal.toFixed(2)}</span>
+                <span class="cart-total">$${cartTotal.toFixed(2)}</span>
             </div>
             <div class="recent-items">
     `;
@@ -69,7 +69,7 @@ function showCartPopup() {
                 <img src="${item.image}" alt="${item.name}">
                 <div class="item-details">
                     <span class="item-name">${item.name}</span>
-                    <span class="item-price">₹${item.price.toFixed(2)} × ${item.quantity}</span>
+                    <span class="item-price">$${item.price.toFixed(2)} × ${item.quantity}</span>
                 </div>
             </div>
         `;
@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const productCard = e.target.closest('.product-card');
             const product = {
                 name: productCard.querySelector('h3').textContent,
-                price: parseFloat(productCard.querySelector('p').textContent.replace('₹', '')),
+                price: parseFloat(productCard.querySelector('p').textContent.replace('$', '')),
                 image: productCard.querySelector('img').src
             };
             addToCart(product);
