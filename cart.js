@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Update popup content
         const popup = document.querySelector('.order-confirmation-popup');
         popup.querySelector('.order-id span').textContent = orderData.orderId;
-        popup.querySelector('.order-total span').textContent = `₹${orderData.totalAmount}`;
+        popup.querySelector('.order-total span').textContent = `$${orderData.totalAmount}`;
         popup.querySelector('.customer-name').textContent = orderData.customerInfo.name;
         popup.querySelector('.customer-address').textContent = orderData.customerInfo.address;
         popup.querySelector('.customer-pincode').textContent = `PIN: ${orderData.customerInfo.pincode}`;
@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <img src="${item.image}" alt="${item.name}" class="cart-item-image">
                 <div class="cart-item-details">
                     <h3>${item.name}</h3>
-                    <p class="item-price">₹${item.price.toFixed(2)}</p>
+                    <p class="item-price">$${item.price.toFixed(2)}</p>
                     <div class="item-options">
                         <div class="option-group">
                             <label>Size:</label>
@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </div>
                 <div class="item-total">
-                    <p>₹${(item.price * item.quantity).toFixed(2)}</p>
+                    <p>$${(item.price * item.quantity).toFixed(2)}</p>
                     <button class="remove-item" data-index="${index}">
                         <i class="fas fa-trash"></i>
                     </button>
@@ -136,8 +136,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const shipping = cart.length > 0 ? 50 : 0;
         const total = subtotal + shipping;
 
-        document.querySelector('.subtotal').textContent = `₹${subtotal.toFixed(2)}`;
-        document.querySelector('.shipping').textContent = `₹${shipping.toFixed(2)}`;
+        document.querySelector('.subtotal').textContent = `$${subtotal.toFixed(2)}`;
+        document.querySelector('.shipping').textContent = `$${shipping.toFixed(2)}`;
         document.querySelector('.amount').textContent = total.toFixed(2);
         
         const checkoutBtn = document.querySelector('.checkout-btn');
